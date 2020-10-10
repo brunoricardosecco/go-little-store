@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  test-postgres-compose:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "1234"
+    ports:
+      - "15432:5432"
+    volumes:
+      - /Users/bruno/dev/Docker-Compose/PostgreSQL:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  test-pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "brunoricardosecco@hotmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "1234"
+    ports:
+      - "16543:80"
+    depends_on:
+      - test-postgres-compose
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
